@@ -1,0 +1,49 @@
+# bs4 dfs scanner
+簡易型html dfs 掃瞄器, 主要用於有序分析html tag, 
+
+# 序
+基本上在做文章的 parse 的過程當中, 時常會有順序關聯的 element or scope, 所以才做一個dfs 的方式掃描指定element 的library
+用於簡單的分析文章的內文結構的
+
+# 用法
+```
+import bs4_scanner
+from bs4 import BeautifulSoup
+
+html = """
+<html>
+    <head></head>
+    <body>
+        <div id="container">
+            <p>description</p>
+            <p>
+                <div class="item">
+                    <img src="a.jpg">
+                    <a>title a</a>
+                </div>
+            </p>
+            <p>
+                <div class="item">
+                    <img src="b.jpg">
+                    <a>title b</a>
+                </div>
+            </p>
+            <script>
+                console.log('test')
+            </script>
+        </div>
+    </body>
+</html>
+"""
+
+soup = BeautifulSoup(html)
+target_element = soup.select('#container')[0]
+bs4_scanner.Dfs_scaner(target_element)
+bs4_scanner.add_handlers([
+    bs4_scanner.text_extract_handler(),  # default process text
+    bs4_scanner.skip_handler('script'),  # skip script tag
+    bs4_scanner.extract_handler('.item', lambda info, e: e.find('img').attrs['src']), # parse image
+])
+```
+result = bs4_scanner.scan()
+
