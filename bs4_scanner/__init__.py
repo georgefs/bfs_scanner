@@ -16,7 +16,7 @@ from .extractors import (
         skip_extractor,
 )
 
-from .handlers import (
+from .shortcuts import (
     simple_img_handler,
     simple_youtube_handler,
     simple_imgur_handler,
