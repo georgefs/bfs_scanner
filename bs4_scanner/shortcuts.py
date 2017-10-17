@@ -27,7 +27,7 @@ def simple_imgur_handler(callback=mirror):
     return ("blockquote.imgur-embed-pub", blockquote_imgur_extractor(callback), False)
 
 def simple_instagram_handler(callback=mirror):
-    return ("instagram-media", blockquote_instagram_extractor(callback), False)
+    return ("blockquote.instagram-media", blockquote_instagram_extractor(callback), False)
 
 def simple_text_handler(callback=mirror):
     return (navigablestring_matcher(), quick_extractor(lambda info, e: callback(info, unicode(e).strip())), False)
