@@ -1,14 +1,16 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright © 2017 lizongzhe 
+# Copyright © 2017 lizongzhe
 #
 # Distributed under terms of the MIT license.
 from bs4 import BeautifulSoup
 import bs4_scanner
+from bs4_scanner import *
 import pytest
 
 import requests
+
 
 @pytest.mark.parametrize(("html", "cssselector", "target"), [
         ("<div id='123' class='456 abc' attr='789'></div>", "div", True),
@@ -33,7 +35,6 @@ def test_cssseletor(html, cssselector, target):
     soup = BeautifulSoup(html)
     elem = soup.find('body').next_element
     assert bs4_scanner.compare_selector(elem, cssselector) == target
-
 
 
 def test_parse():
@@ -130,16 +131,22 @@ def test_parse():
    </span>
 </div>
     '''
+    def format(pattern):
+        def wrap(info, r):
+            return pattern.format(r)
+        return wrap
     soup = BeautifulSoup(html)
     container = soup.select('.text-holder')[0]
     scanner = bs4_scanner.Dfs_scaner(container)
     scanner.add_handlers([
-        bs4_scanner.text_extract_handler(),
-        bs4_scanner.simple_img_extract_handler(lambda info, src: "\nimg:{}\n".format(src)),
-        bs4_scanner.simple_youtube_extract_handler(lambda info, src: "\nyoutube:{}\n".format(src)),
-        bs4_scanner.skip_handler(['script', 'style', '.code-block', bs4_scanner.tag_matcher('p', u'^更多旅遊搜尋引擎')]),
-        bs4_scanner.extract_handler(['p', 'br'], lambda info, e: e.text.strip() and u"\n{}\n".format(e.text.strip())),
-        bs4_scanner.extract_handler(['h1', 'h2', 'h3', 'h4'], lambda into, e: u"<b>{}</b>".format(e.text.strip())),
+        simple_text_handler(),
+        simple_img_handler(format(u"\nimg:{}\n")),
+        simple_youtube_handler(format(u"\nyoutube:{}\n")),
+        simple_instagram_handler(format(u"\ninstagram:{}\n")),
+        simple_imgur_handler(format(u"\nimgur:{}\n")),
+        (['script', 'style', '.code-block', tag_matcher('p', u'^更多旅遊搜尋引擎')], skip_extractor, False),
+        (['p', 'br'], quick_extractor(lambda info, e: e.text.strip() and u"\n{}\n".format(e.text.strip())), False),
+        (['h1', 'h2', 'h3', 'h4'], quick_extractor(lambda into, e: u"<b>{}</b>".format(e.text.strip())), False)
     ])
 
     results = scanner.scan()
