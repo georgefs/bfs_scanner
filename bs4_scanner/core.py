@@ -9,7 +9,8 @@ import matchers
 
 
 class Dfs_scaner:
-    handlers = []
+    base_handlers = []
+    _handlers = []
 
     class Command:
         next = 0
@@ -70,7 +71,7 @@ class Dfs_scaner:
             Return:
                 (Dfs_scaner.Command, handle_result)
         """  # noqa
-        self.handlers.append([element_matchers, handler, in_after])
+        self._handlers.append([element_matchers, handler, in_after])
 
     def add_handlers(self, configures):
         """
@@ -85,6 +86,10 @@ class Dfs_scaner:
         """
         for element_matchers, handler, in_after in configures:
             self.add_handler(element_matchers, handler, in_after)
+
+    @property
+    def handlers(self):
+        return self._handlers + self.base_handlers 
 
     def _trigger_handlers(self, element, in_after=False):
         results = []
