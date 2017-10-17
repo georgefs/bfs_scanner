@@ -173,5 +173,4 @@ img:https://i0.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/4-6.jpg?res
 img:https://i2.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/collage2.jpg?resize=780%2C585&ssl=1
 ▲姜河那「女友視角」帶你玩香港。（圖／KAYAK）
     '''.strip()
-    import pdb;pdb.set_trace()
     assert result == target
