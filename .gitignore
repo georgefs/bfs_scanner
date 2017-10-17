@@ -1,0 +1,109 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Packaging files:
+*.egg*
+
+# SQLite3 database files:
+*.db
+*.sqlite3
+*.sqlite
+
+# Logs:
+*.log
+
+# Environment variables
+local.env
+
+# Django stuff:
+*.mo
+*.pot
+*.log
+venv/
+assets/
+media/
+local.db
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
+# Linux Editors
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+*.swp
+*.swo
+
+# Rope
+.ropeproject
+
+# Mac
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# PyCharm
+*.iml
+.idea/
+*.ipr
+*.iws
+
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# Cache
+CACHE
+src/cache_clips/
+
+# Coverage
+.coverage
+
+# Ipython 
+.ipynb_checkpoints/
+*.ipynb
+src/video_composer/media/*
+
+# word2vec
+zhwiki_stanford*
+
+# default oauth file for youtube upload file
+src/utils/oauth.json
+
+# local celery beats
+djcelery.schedulers.DatabaseScheduler
+celerybeat-schedule
+
+# ui testing
+chromedriver
+
+# default generated mp4 name
+a.mp4
+
+# otheres
+.vagrant
+*.yml
+.vagrant/*
+.env
+src/scripts
+
+# webpack
+dev-webpack-stats.json

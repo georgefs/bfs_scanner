@@ -174,3 +174,7 @@ img:https://i2.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/collage2.jp
 ▲姜河那「女友視角」帶你玩香港。（圖／KAYAK）
     '''.strip()
     assert result == target
+
+    results = scanner.scan_multi([container, container])
+    result = "".join([r[1] for r in results])
+    assert result == target + target

@@ -62,15 +62,22 @@ class Dfs_scaner:
     url = ""
     merged = False
     
-    def __init__(self, element, url="http://localhost", merged=False, first=True):
+    def __init__(self, elements, url="http://localhost", merged=False, first=True):
         """
         Keyword arguments:
-            element: target scan element (BeautifulSoup.element.Tag)
+            element: target scan element (BeautifulSoup.element.Tag) or [(BeautifulSoup.element.Tag)]
             url: base url 
         """
-        if isinstance(element, bs4.BeautifulSoup):
-            element = element.find()
-        self.element = element
+        if not isinstance(elements, (list, tuple)):
+            elements = [elements]
+        
+        _elements = []
+        for element in elements:
+            if isinstance(element, bs4.BeautifulSoup):
+                element = element.find()
+            _elements.append(element)
+
+        self.elements = _elements
         self.url = url
         self.merged = merged
         self.first = first
@@ -159,7 +166,14 @@ class Dfs_scaner:
     def set_next_step(self, command):
         self.next_step = command
 
-    def run(self, element=None):
+
+    def scan_multi(self, elements):
+        for element in elements:
+            for result in self.scan_one(element):
+                yield result
+        
+
+    def scan_one(self, element=None):
         element = element or self.element
 
         for handle_result in self._trigger_handlers(element):
@@ -167,7 +181,7 @@ class Dfs_scaner:
 
         if getattr(element, 'name', None) and self.next_step == Dfs_scaner.Command.next:
             for child in element.childGenerator():
-                for i in self.run(child):
+                for i in self.scan_one(child):
                     yield i
 
         elif self.next_step == Dfs_scaner.Command.skip:
@@ -181,7 +195,7 @@ class Dfs_scaner:
         """
         開始掃描
         """
-        result = [r for r in self.run(self.element)]
+        result = [r for r in self.scan_multi(self.elements)]
         return result
 
 
