@@ -193,4 +193,18 @@ def test_issue_8():
     ])
     results = scanner.scan()
     assert len(results) == 1
-    assert results[1][1] == 'test'
+    assert results[0][1] == 'test'
+
+def test_multi_element():
+    elem1 = BeautifulSoup("<div>page1</div>").find('div')
+    elem2 = BeautifulSoup("<div>page2</div>").find('div')
+    elem3 = BeautifulSoup("<div>page3</div>").find('div')
+
+    scanner = bs4_scanner.Dfs_scaner([elem1, elem2, elem3])
+    scanner.add_handlers([
+        simple_text_handler(),
+    ])
+    results = scanner.scan()
+    result = "".join([r[1] for r in results])
+    assert len(results) == 3
+    assert result == "page1page2page3"
