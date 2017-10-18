@@ -183,7 +183,7 @@ img:https://i2.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/collage2.jp
     assert result == target
 
 
-def test_issue_8():
+def test_empty_tag(): # issue8
     html = "<div><p></p><p>test</p></div>"
     soup = BeautifulSoup(html)
     elem = soup.find('div')
@@ -195,7 +195,7 @@ def test_issue_8():
     assert len(results) == 1
     assert results[0][1] == 'test'
 
-def test_multi_element():
+def test_multi_element(): # issue1
     elem1 = BeautifulSoup("<div>page1</div>").find('div')
     elem2 = BeautifulSoup("<div>page2</div>").find('div')
     elem3 = BeautifulSoup("<div>page3</div>").find('div')
