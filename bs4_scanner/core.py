@@ -39,6 +39,7 @@ class Dfs_scaner:
         self.url = url
         self.merged = merged
         self.first = first
+        self._handlers = []
 
     def add_handler(self, element_matchers, handler, in_after=False):
         """
