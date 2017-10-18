@@ -90,7 +90,7 @@ class Dfs_scaner:
 
     @property
     def handlers(self):
-        return self._handlers + self.base_handlers 
+        return self._handlers + self.base_handlers
 
     def _trigger_handlers(self, element, in_after=False):
         results = []

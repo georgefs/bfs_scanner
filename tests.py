@@ -6,10 +6,8 @@
 # Distributed under terms of the MIT license.
 from bs4 import BeautifulSoup
 import bs4_scanner
-from bs4_scanner import *
+from bs4_scanner import *  # noqa
 import pytest
-
-import requests
 
 
 @pytest.mark.parametrize(("html", "cssselector", "target"), [
@@ -18,17 +16,17 @@ import requests
         ("<div id='123' class='456 abc' attr='789'></div>", "div#123", True),
         ("<div id='123' class='456 abc' attr='789'></div>", "div#12", False),
         ("<div id='123' class='456 abc' attr='789'></div>", "div#1234", False),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.45", False),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.4567", False),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr=789]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr^=7]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=7]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=8]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=9]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr$=9]", True),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr=7]", False),
-        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr$=7]", False),
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.45", False),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.4567", False),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr=789]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr^=7]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=7]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=8]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr*=9]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr$=9]", True),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr=7]", False),  # noqa
+        ("<div id='123' class='456 abc' attr='789'></div>", "div#123.456[attr$=7]", False),  # noqa
     ]
 )
 def test_cssseletor(html, cssselector, target):
@@ -130,7 +128,8 @@ def test_parse():
       </div>
    </span>
 </div>
-    '''
+    '''  # noqa
+
     def format(pattern):
         def wrap(info, r):
             return pattern.format(r)
@@ -144,9 +143,9 @@ def test_parse():
         simple_youtube_handler(format(u"\nyoutube:{}\n")),
         simple_instagram_handler(format(u"\ninstagram:{}\n")),
         simple_imgur_handler(format(u"\nimgur:{}\n")),
-        (['script', 'style', '.code-block', tag_matcher('p', u'^更多旅遊搜尋引擎')], skip_extractor, False),
-        (['p', 'br'], quick_extractor(lambda info, e: e.text.strip() and u"\n{}\n".format(e.text.strip())), False),
-        (['h1', 'h2', 'h3', 'h4'], quick_extractor(lambda into, e: u"<b>{}</b>".format(e.text.strip())), False)
+        (['script', 'style', '.code-block', tag_matcher('p', u'^更多旅遊搜尋引擎')], skip_extractor, False),  # noqa
+        (['p', 'br'], quick_extractor(lambda info, e: e.text.strip() and u"\n{}\n".format(e.text.strip())), False),  # noqa
+        (['h1', 'h2', 'h3', 'h4'], quick_extractor(lambda into, e: u"<b>{}</b>".format(e.text.strip())), False)  # noqa
     ])
 
     results = scanner.scan()
@@ -179,11 +178,11 @@ img:https://i0.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/4-6.jpg?res
 ▲姜河那「女友視角」帶你玩香港。（圖／KAYAK）
 img:https://i2.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/collage2.jpg?resize=780%2C585&ssl=1
 ▲姜河那「女友視角」帶你玩香港。（圖／KAYAK）
-    '''.strip()
+    '''.strip()  # noqa
     assert result == target
 
 
-def test_empty_tag(): # issue8
+def test_empty_tag():  # issue8
     html = "<div><p></p><p>test</p></div>"
     soup = BeautifulSoup(html)
     elem = soup.find('div')
@@ -195,7 +194,8 @@ def test_empty_tag(): # issue8
     assert len(results) == 1
     assert results[0][1] == 'test'
 
-def test_multi_element(): # issue1
+
+def test_multi_element():  # issue1
     elem1 = BeautifulSoup("<div>page1</div>").find('div')
     elem2 = BeautifulSoup("<div>page2</div>").find('div')
     elem3 = BeautifulSoup("<div>page3</div>").find('div')
