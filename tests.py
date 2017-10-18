@@ -182,6 +182,15 @@ img:https://i2.wp.com/pinknow.nownews.com/wp-content/uploads/2017/10/collage2.jp
     '''.strip()
     assert result == target
 
-    results = scanner.scan_multi([container, container])
-    result = "".join([r[1] for r in results])
-    assert result == target + target
+
+def test_issue_8():
+    html = "<div><p></p><p>test</p></div>"
+    soup = BeautifulSoup(html)
+    elem = soup.find('div')
+    scanner = bs4_scanner.Dfs_scaner(elem)
+    scanner.add_handlers([
+        simple_text_handler(),
+    ])
+    results = scanner.scan()
+    assert len(results) == 1
+    assert results[1][1] == 'test'

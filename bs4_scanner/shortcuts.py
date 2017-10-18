@@ -30,5 +30,4 @@ def simple_instagram_handler(callback=mirror):
     return ("blockquote.instagram-media", blockquote_instagram_extractor(callback), False)
 
 def simple_text_handler(callback=mirror):
-    return (navigablestring_matcher(), quick_extractor(lambda info, e: callback(info, unicode(e).strip())), False)
-
+    return (navigablestring_matcher(), quick_extractor(lambda info, e: callback(info, unicode(e).strip()) or None), False)
